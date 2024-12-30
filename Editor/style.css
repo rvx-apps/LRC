@@ -127,8 +127,10 @@
       overflow-x: scroll;
     }
 
-#syncedLyrics{
-    
+#syncedLyrics div{
+    font-family:monospace;
+    margin-top:2px;
+    padding:2px;
 }
 #syncedLyrics pre{
    max-width:80%;
