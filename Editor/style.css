@@ -3,13 +3,13 @@
       font-family: Arial, sans-serif;
       background: linear-gradient(to bottom right, #1e3c72, #2a5298);
       color: #fff;
-      margin: 10px 10px;
+      margin: 0px;
       padding: 0;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      /*width: 100vw; */
+      width: 100vw; 
     }
 
     .container {
