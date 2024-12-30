@@ -1,3 +1,4 @@
+// Select DOM elements
 const audioFile = document.getElementById('audioFile');
 const playPauseButton = document.getElementById('playPauseButton');
 const progressWrapper = document.getElementById('progressWrapper');
@@ -14,6 +15,19 @@ let audioPlayer = new Audio();
 let syncedLyrics = [];
 let originalFile = null;
 
+// Toast configuration
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer);
+    toast.addEventListener('mouseleave', Swal.resumeTimer);
+  }
+});
+
 // Load audio
 audioFile.addEventListener('change', (e) => {
   const file = e.target.files[0];
@@ -24,6 +38,11 @@ audioFile.addEventListener('change', (e) => {
     audioPlayer.load();
     audioPlayer.addEventListener('loadedmetadata', () => {
       durationDisplay.textContent = formatTime(audioPlayer.duration);
+      Toast.fire({
+        icon: 'success',
+        title: 'Audio Loaded',
+        text: `Loaded: ${file.name}`,
+      });
     });
   }
 });
@@ -33,9 +52,17 @@ playPauseButton.addEventListener('click', () => {
   if (audioPlayer.paused) {
     audioPlayer.play();
     playPauseButton.textContent = '⏸';
+   /* Swal.fire({
+      icon: 'info',
+      title: 'Playing Audio',
+    });*/
   } else {
     audioPlayer.pause();
     playPauseButton.textContent = '▶';
+   /* Swal.fire({
+      icon: 'info',
+      title: 'Audio Paused',
+    });*/
   }
 });
 
@@ -46,6 +73,7 @@ audioPlayer.addEventListener('timeupdate', () => {
   currentTimeDisplay.textContent = formatTime(audioPlayer.currentTime);
 });
 
+// Seek audio on progress bar click
 progressWrapper.addEventListener('click', (e) => {
   const rect = progressWrapper.getBoundingClientRect();
   const clickX = e.clientX - rect.left;
@@ -56,6 +84,15 @@ progressWrapper.addEventListener('click', (e) => {
 // Generate lyric buttons
 generateButtons.addEventListener('click', () => {
   const lyrics = lyricsInput.value.split('\n');
+  if (!lyricsInput.value.trim()) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'No Lyrics Entered',
+      text: 'Please input some lyrics before generating buttons!',
+    });
+    return;
+  }
+
   lyricsDisplay.innerHTML = ''; // Clear previous buttons
   lyrics.forEach((line) => {
     if (line.trim() !== '') {
@@ -64,6 +101,12 @@ generateButtons.addEventListener('click', () => {
       button.addEventListener('click', () => captureTimestamp(line));
       lyricsDisplay.appendChild(button);
     }
+  });
+
+  Swal.fire({
+    icon: 'success',
+    title: 'Buttons Generated',
+    text: 'Click on the buttons to timestamp the lyrics.',
   });
 });
 
@@ -80,46 +123,49 @@ function displaySyncedLyrics() {
   syncedLyricsDisplay.textContent = syncedLyrics.join('\n');
 }
 
+// Embed lyrics into MP3
 embedLyricsButton.addEventListener('click', async () => {
-    // Get the MP3 file and lyrics
-    const originalFile = document.getElementById('audioFile').files[0];
-    if (!originalFile) {
-      alert('Please select an MP3 file first!');
-      return;
-    }
-
-    const lyricsText = syncedLyrics.join('\n'); // Replace syncedLyrics with your app's lyrics variable
-    if (!lyricsText) {
-      alert('Please provide lyrics to embed!');
-      return;
-    }
-
-    // Read the MP3 file as an ArrayBuffer
-    const arrayBuffer = await originalFile.arrayBuffer();
-
-    // Initialize the ID3 writer and set the USLT frame
-    const writer = new ID3Writer(arrayBuffer);
-    writer.setFrame('USLT', {
-      description: 'Lyrics',
-      lyrics: lyricsText,
+  const originalFile = document.getElementById('audioFile').files[0];
+  if (!originalFile) {
+    Swal.fire({
+      icon: 'error',
+      title: 'No MP3 File Selected',
+      text: 'Please select an MP3 file first!',
     });
+    return;
+  }
 
-    // Add ID3 tag to the MP3 file
-    writer.addTag();
+  const lyricsText = syncedLyrics.join('\n');
+  if (!lyricsText) {
+    Swal.fire({
+      icon: 'error',
+      title: 'No Lyrics to Embed',
+      text: 'Please generate and timestamp lyrics before embedding!',
+    });
+    return;
+  }
 
-    // Generate the updated MP3 file as a Blob
-    const taggedBlob = writer.getBlob();
-
-    // Create a download link for the updated file
-    const url = URL.createObjectURL(taggedBlob);
-    const downloadLink = document.createElement('a');
-    downloadLink.href = url;
-    downloadLink.download = 'updated_with_lyrics.mp3';
-    downloadLink.click();
-
-    alert('Lyrics embedded and file downloaded!');
+  const arrayBuffer = await originalFile.arrayBuffer();
+  const writer = new ID3Writer(arrayBuffer);
+  writer.setFrame('USLT', {
+    description: 'Lyrics',
+    lyrics: lyricsText,
   });
 
+  writer.addTag();
+  const taggedBlob = writer.getBlob();
+  const url = URL.createObjectURL(taggedBlob);
+  const downloadLink = document.createElement('a');
+  downloadLink.href = url;
+  downloadLink.download = `${originalFile.name}_with_lyrics.mp3`;
+  downloadLink.click();
+
+  Swal.fire({
+    icon: 'success',
+    title: 'Lyrics Embedded',
+    text: 'The MP3 file has been updated with embedded lyrics and downloaded!',
+  });
+});
 
 // Format time (with optional milliseconds)
 function formatTime(seconds, withMilliseconds = false) {
@@ -129,4 +175,4 @@ function formatTime(seconds, withMilliseconds = false) {
   return withMilliseconds
     ? `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}.${String(ms).padStart(3, '0')}`
     : `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-}
+    }
