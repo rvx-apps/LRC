@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>RVX Lyric Tools</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Global Styles */
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0 5px;
+      background-color: #121212;
+      color: #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: start;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    /* Header Section */
+    header {
+      text-align: center;
+      margin: 30px 0;
+    }
+    h1 {
+      font-size: 3em;
+      margin: 0;
+      color: #ff4081;
+    }
+    p {
+      font-size: 1.2em;
+      margin: 10px 0;
+    }
+
+    /* Section Styles */
+    .section {
+      width: 100%;
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #1e1e1e;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      box-sizing: border-box;
+    }
+    .section h2 {
+      font-size: 2em;
+      margin-bottom: 10px;
+      color: #ff4081;
+    }
+    .section h3{
+        margin-left:5px;
+        
+    }
+    .section h4{
+        margin-left:5px;
+        color:#00eaff;
+    }
+    .section .pt{
+        margin-left:20px;
+    }
+    /* Card Container */
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .card {
+      background: #292929;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      width: 300px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-10px);
+      background: #333;
+    }
+    .card h3 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+    .card p {
+      font-size: 1em;
+      margin-bottom: 20px;
+    }
+    .card a {
+      display: inline-block;
+      padding: 10px 20px;
+      background: #ff4081;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+    .card a:hover {
+      background: #ff6090;
+    }
+
+    /* Example Section */
+    pre {
+      background: #292929;
+      padding: 15px;
+      border-radius: 5px;
+      color: #fff;
+      overflow-x: auto;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 40px;
+      font-size: 0.9em;
+      color: #aaa;
+      width:100%;
+      height: 50px;
+      text-align: center;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5em;
+      }
+      p {
+        font-size: 1em;
+      }
+      .card {
+        width: 100%;
+      }
+    }
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2em;
+      }
+      .section {
+        padding: 15px;
+      }
+    }
+    .section {
+  margin: 5px;
+  padding: 20px;
+  background-color: #1c1c1c;
+  border-radius: 10px;
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.section h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #ff4081;
+}
+
+.comparison-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .comparison-container {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.comparison-item {
+  flex: 1;
+  padding: 15px;
+  background-color: #292929;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.comparison-item h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #ffa726;
+}
+
+.comparison-item p {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.comparison-item ul {
+  list-style: square inside;
+  padding: 0;
+  margin: 0;
+}
+
+.comparison-item ul li {
+  margin-bottom: 5px;
+  font-size: 0.95rem;
+}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>RVX <b style="color:#00eaff">Audio</b> Lyric Tools</h1>
+    <p>Effortlessly edit and sync your lyrics to Your Audio files.</p>
+  </header>
+  <div class="section">
+    <h2>Tools</h2>
+    <div class="card-container">
+      <!-- Editor -->
+      <div class="card">
+        <h3>Lyric Editor</h3>
+        <p>Create and edit LRC files with ease.</p>
+        <a href="Editor/index.html">Go to Editor</a>
+      </div>
+      <!-- Syncer -->
+      <div class="card">
+        <h3>Lyric Syncer</h3>
+        <p>Sync your lyrics perfectly to the audio.</p>
+        <a href="Syncer/index.html">Go to Syncer</a>
+      </div>
+    </div>
+  </div>
+  <!-- editor info -->
+  <div class="section">
+      <h2>About Editors</h2>
+      <h3>This site had Two types of editors for Now...</h3>
+      <h4>Lyric Editor:</h4>
+      <p class="pt">This editor can sync your lyrics to your music file (mp3) and add them (embed) to the file permenently.<br>So, You can select the file you want to and find-copy-paste or type the lyrics with listning and sync them using genarated buttons...<br><br>And download the new file with lyrics.</p>
+      <h4>Lyric Syncer:</h4>
+      <p class="pt">This works same as Lyric Editor but this can't embed the lyrics to audio file.<br><br>But You can copy the synced lyrics to your clipboard...<br><br><span style="color:yellow;">(Syncer for a player errors some players may not support Lyric editor's embeded files.So, you can add synced lyrics to audio your self using the player...)</span></p>
+  </div>
+  <!-- sync vs lyrc -->
+  <div class="section lyrics-comparison">
+  <h2>Audio Lyrics vs. Synced Lyrics</h2>
+  <div class="comparison-container">
+    <div class="comparison-item">
+      <h3>Audio Lyrics</h3>
+      <p>
+        Audio lyrics refer to the written text of a song, often displayed as plain text or paragraphs. These lyrics are static and do not follow the music's timing.
+      </p>
+      <ul>
+        <li>Displayed as static text.</li>
+        <li>No real-time synchronization.</li>
+        <li>Used mainly for reading or reference.</li>
+      </ul>
+    </div>
+    <div class="comparison-item">
+      <h3>Synced Lyrics</h3>
+      <p>
+        Synced lyrics, such as LRC files, are synchronized to the timing of a song. They highlight the lyrics in real-time as the song progresses.
+      </p>
+      <ul>
+        <li>Follows the song's timing.</li>
+        <li>Ideal for karaoke or singing along.</li>
+        <li>Provides a dynamic and engaging experience.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="section">
+  <h2>About Audio Players</h2>
+  <p>
+    Audio players are applications or devices used to play audio files such as MP3, WAV, or FLAC. Modern audio players go beyond just playing music—they include features such as equalizers, playlists, streaming support, and synced lyric displays.
+  </p>
+  <p>
+    Some advanced audio players also support synced lyrics in formats like <strong>LRC</strong>, allowing lyrics to display in real-time as the music plays. This feature is especially useful for karaoke, learning songs, or enhancing the listening experience.
+  </p>
+  <p>Below are some popular types of audio players:</p>
+  <ul>
+    <li><strong>Desktop Players:</strong> Feature-rich software like <a href="https://www.videolan.org/vlc/" target="_blank" style="color: #ff4081;">VLC Media Player</a> and <a href="https://foobar2000.org/" target="_blank" style="color: #ff4081;">Foobar2000</a> provide synced lyric support.</li>
+    <li><strong>Mobile Players:</strong> Lightweight apps like <a href="https://play.google.com/store/apps/details?id=in.krosbits.musicolet" target="_blank" style="color: #ff4081;">Musicolet</a> or <a href="https://www.powerampapp.com/" target="_blank" style="color: #ff4081;">Poweramp</a> support synced lyrics for Android users.</li>
+    <li><strong>Web-Based Players:</strong> Online platforms such as Spotify and YouTube Music can display synced lyrics for supported songs.</li>
+  </ul>
+  <h3>Why Use Audio Players with Synced Lyric Support?</h3>
+  <p>Audio players with synced lyric support enrich the listening experience by letting you follow the lyrics in real time. This is especially valuable for:</p>
+  <ul>
+    <li>Music lovers who enjoy singing along.</li>
+    <li>Karaoke enthusiasts who need precise timing.</li>
+    <li>Language learners using songs to improve skills.</li>
+  </ul>
+</div>
+<!-- example structure -->
+  <div class="section">
+    <h2>Example LRC</h2>
+    <pre>
+[00:00.00] Line 1 of the lyrics
+[00:15.23] Line 2 of the lyrics
+[00:30.45] Line 3 of the lyrics
+[00:45.67] Line 4 of the lyrics
+    </pre>
+    <p>Use the Lyric Editor or Syncer to modify this example or create your own.</p>
+  </div>
+  
+  <div class="section">
+    <h2>About the Developer</h2>
+    <p><strong>RVX Apps</strong> is dedicated to creating powerful tools for music and lyric enthusiasts.</p>
+    <p>For questions or feedback, please visit our <a href="https://github.com/rvx-apps/LRC/issues" style="color: #ff4081; text-decoration: none;">GitHub Repository</a>.</p>
+  </div>
+  <footer>
+    &copy; 2024 RVX Apps. All rights reserved.
+  </footer>
+</body>
+  </html>
