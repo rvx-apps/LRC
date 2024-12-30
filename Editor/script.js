@@ -81,47 +81,45 @@ function displaySyncedLyrics() {
 }
 
 embedLyricsButton.addEventListener('click', async () => {
-  originalFile = document.getElementById('audioFile').files[0];
-  if (!originalFile) {
-    alert('Please select an MP3 file first!');
-    return;
-  }
+    // Get the MP3 file and lyrics
+    const originalFile = document.getElementById('audioFile').files[0];
+    if (!originalFile) {
+      alert('Please select an MP3 file first!');
+      return;
+    }
 
-  const lyricsText = syncedLyrics.join('\n');
+    const lyricsText = syncedLyrics.join('\n'); // Replace syncedLyrics with your app's lyrics variable
+    if (!lyricsText) {
+      alert('Please provide lyrics to embed!');
+      return;
+    }
 
-  // Read the MP3 file
-  const reader = new FileReader();
-  reader.onload = async function (e) {
-    const arrayBuffer = e.target.result;
+    // Read the MP3 file as an ArrayBuffer
+    const arrayBuffer = await originalFile.arrayBuffer();
 
-    // Initialize MP3Tag and read the tags
-    const mp3tag = new MP3Tag(arrayBuffer);
-    mp3tag.read();
+    // Initialize the ID3 writer and set the USLT frame
+    const writer = new ID3Writer(arrayBuffer);
+    writer.setFrame('USLT', {
+      description: 'Lyrics',
+      lyrics: lyricsText,
+    });
 
-    // Embed lyrics into the ID3 USLT frame
-    mp3tag.tags.v2.USLT = {
-      description: '',
-      text: lyricsText,
-    };
+    // Add ID3 tag to the MP3 file
+    writer.addTag();
 
-    // Save the updated MP3 file
-    mp3tag.save();
-    const updatedBuffer = mp3tag.buffer;
+    // Generate the updated MP3 file as a Blob
+    const taggedBlob = writer.getBlob();
 
-    // Create a Blob and enable download
-    const updatedBlob = new Blob([updatedBuffer], { type: 'audio/mp3' });
-    const url = URL.createObjectURL(updatedBlob);
-
+    // Create a download link for the updated file
+    const url = URL.createObjectURL(taggedBlob);
     const downloadLink = document.createElement('a');
     downloadLink.href = url;
     downloadLink.download = 'updated_with_lyrics.mp3';
     downloadLink.click();
 
     alert('Lyrics embedded and file downloaded!');
-  };
+  });
 
-  reader.readAsArrayBuffer(originalFile);
-});
 
 // Format time (with optional milliseconds)
 function formatTime(seconds, withMilliseconds = false) {
