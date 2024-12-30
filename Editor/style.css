@@ -124,9 +124,7 @@
       width: 80%;
       overflow-x: scroll;
     }
-.synced-line{
-    font-family:monospace;
-}
+
 #syncedLyrics{
     overflow-x:scroll;
 }
