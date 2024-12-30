@@ -131,6 +131,7 @@
     
 }
 #syncedLyrics pre{
-   width:80%;
-    word-warp:break-word;
+   max-width:80%;
+   overflow-y:scroll;
+   
 }
