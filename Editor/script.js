@@ -10,6 +10,8 @@ const generateButtons = document.getElementById('generateButtons');
 const lyricsDisplay = document.getElementById('lyricsDisplay');
 const syncedLyricsDisplay = document.getElementById('syncedLyrics');
 const embedLyricsButton = document.getElementById('embedLyrics');
+const undoButton = document.getElementById('undoButton');
+
 
 let audioPlayer = new Audio();
 let syncedLyrics = [];
@@ -120,7 +122,47 @@ function captureTimestamp(line) {
 
 // Display synced lyrics
 function displaySyncedLyrics() {
-  syncedLyricsDisplay.textContent = syncedLyrics.join('\n');
+  //syncedLyricsDisplay.textContent = syncedLyrics.join('\n');
+  syncedLyricsDisplay.innerHTML = '';
+  syncedLyrics.forEach((line, index) => {
+    const lineElement = document.createElement('pre');
+    lineElement.textContent = line;
+    lineElement.className = 'synced-line';
+    lineElement.addEventListener('click', () => editLine(index));
+    syncedLyricsDisplay.appendChild(lineElement);
+  });
+}
+
+// Undo the last synced line
+undoButton.addEventListener('click', () => {
+  if (syncedLyrics.length > 0) {
+    syncedLyrics.pop();
+    displaySyncedLyrics();
+    Toast.fire({ icon: 'info', title: 'Last sync undone.' });
+  } else {
+    Swal.fire({
+      icon: 'error',
+      title: 'Undo Failed',
+      text: 'No synced lines to undo!',
+    });
+  }
+});
+
+function editLine(index) {
+  Swal.fire({
+    title: 'Edit Synced Line',
+    input: 'text',
+    inputValue: syncedLyrics[index],
+    showCancelButton: true,
+    confirmButtonText: 'Save',
+    cancelButtonText: 'Cancel',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      syncedLyrics[index] = result.value;
+      displaySyncedLyrics();
+      Toast.fire({ icon: 'success', title: 'Synced line updated.' });
+    }
+  });
 }
 
 // Embed lyrics into MP3
