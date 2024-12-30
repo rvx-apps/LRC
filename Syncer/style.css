@@ -1,0 +1,126 @@
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom right, #1e3c72, #2a5298);
+      color: #fff;
+      margin: 10px 10px;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+       min-height: 100vh;
+     /* width: 100vw; */
+    }
+
+    .container {
+      position: relative;
+      
+      background: rgba(0, 0, 0, 0.8);
+      /* padding: 10px 0px; */
+      border-radius: 10px;
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    input[type="file"], button, textarea {
+      /* width: 95%; */
+      padding: 12px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    input[type="file"] {
+      background: #fff;
+      color: #333;
+    }
+
+    button {
+      background: linear-gradient(to right, #36d1dc, #5b86e5);
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(to right, #5b86e5, #36d1dc);
+    }
+
+    textarea {
+      width : 80%;
+      resize: none;
+      height: 150px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border-radius: 5px;
+    }
+
+    .audio-player {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+      width: 80%;
+    }
+
+    .progress-wrapper {
+      width: 100%;
+      height: 10px;
+      background: #ddd;
+      border-radius: 5px;
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(to right, #36d1dc, #5b86e5);
+      width: 0%;
+    }
+
+    .lyrics-display {
+      max-height: 300px;
+      overflow-y: auto;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 5px;
+      width: 80%;
+    }
+
+    .lyrics-display button {
+      display: block;
+      width: 80%;
+      background: #444;
+      color: #fff;
+      margin-bottom: 5px;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      text-align: left;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .lyrics-display button:hover {
+      background: #555;
+    }
+
+    .synced-lyrics {
+      margin-top: 15px;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 5px;
+      font-size: 14px;
+      color: #fff;
+      margin-bottom: 15px;
+      text-align: left;
+      width: 80%;
+      overflow-x: scroll;
+        }
