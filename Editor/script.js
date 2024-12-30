@@ -125,7 +125,7 @@ function displaySyncedLyrics() {
   //syncedLyricsDisplay.textContent = syncedLyrics.join('\n');
   syncedLyricsDisplay.innerHTML = '';
   syncedLyrics.forEach((line, index) => {
-    const lineElement = document.createElement('pre');
+    const lineElement = document.createElement('div');
     lineElement.textContent = line;
     lineElement.className = 'synced-line';
     lineElement.addEventListener('click', () => editLine(index));
