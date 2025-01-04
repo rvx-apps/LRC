@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MP3 Metadata Editor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    /* Dark Theme Styling */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #121212;
+      color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .editor-container {
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
+      background: #1e1e1e;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      font-size: 24px;
+      font-weight: 500;
+      color: #4caf50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    header h1 .material-icons {
+      font-size: 30px;
+      margin-right: 10px;
+    }
+
+    .upload-section, .form-group, #output {
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #f0f0f0;
+    }
+
+    input[type="file"], input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background: #2e2e2e;
+      color: #ccc;
+      margin-top: 5px;
+      font-size: 14px;
+    }
+
+    input[type="text"]:focus, input[type="file"]:focus {
+      outline: none;
+      border: 1px solid #4caf50;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      background: #4caf50;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    button .material-icons {
+      font-size: 20px;
+      margin-right: 5px;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+
+    a {
+      text-decoration: none;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    a .material-icons {
+      margin-right: 5px;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="editor-container">
+    <header>
+      <h1><span class="material-icons">edit</span> MP3 Metadata Editor</h1>
+    </header>
+
+    <div class="upload-section">
+      <h2>Upload MP3 File</h2>
+      <input type="file" id="mp3File" accept=".mp3">
+    </div>
+
+    <div id="metadataForm" style="display: none;">
+      <h2>Edit Metadata</h2>
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" id="title" placeholder="Enter song title">
+      </div>
+
+      <div class="form-group">
+        <label for="artist">Artist</label>
+        <input type="text" id="artist" placeholder="Enter artist name">
+      </div>
+
+      <div class="form-group">
+        <label for="album">Album</label>
+        <input type="text" id="album" placeholder="Enter album name">
+      </div>
+
+      <button id="saveChanges" class="btn save-btn">
+        <span class="material-icons">save</span> Save Changes
+      </button>
+    </div>
+
+    <div id="output" style="display: none;">
+      <h2>Updated MP3 File</h2>
+      <a id="downloadLink" class="btn download-btn" download="edited.mp3">
+        <span class="material-icons">download</span> Download Updated MP3
+      </a>
+    </div>
+  </div>
+
+  <script>
+    const mp3FileInput = document.getElementById('mp3File');
+    const metadataForm = document.getElementById('metadataForm');
+    const saveChangesButton = document.getElementById('saveChanges');
+    const downloadLink = document.getElementById('downloadLink');
+    const outputSection = document.getElementById('output');
+
+    let currentFile = null;
+
+    mp3FileInput.addEventListener('change', event => {
+      const file = event.target.files[0];
+      if (!file || !file.type.includes('audio/mpeg')) {
+        alert('Please upload a valid MP3 file.');
+        return;
+      }
+
+      currentFile = file;
+
+      // Show metadata form
+      metadataForm.style.display = 'block';
+    });
+
+    saveChangesButton.addEventListener('click', () => {
+      if (!currentFile) return alert('Please upload an MP3 file first.');
+
+      const title = document.getElementById('title').value;
+      const artist = document.getElementById('artist').value;
+      const album = document.getElementById('album').value;
+
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        const arrayBuffer = reader.result;
+        const buffer = new Uint8Array(arrayBuffer);
+
+        // Replace metadata manually (basic approach)
+        const titleBytes = new TextEncoder().encode(title);
+        const artistBytes = new TextEncoder().encode(artist);
+        const albumBytes = new TextEncoder().encode(album);
+
+        buffer.set(titleBytes, 3); // Dummy example
+        buffer.set(artistBytes, 30); // Dummy example
+        buffer.set(albumBytes, 60); // Dummy example
+
+        const blob = new Blob([buffer], { type: 'audio/mpeg' });
+        downloadLink.href = URL.createObjectURL(blob);
+        outputSection.style.display = 'block';
+      };
+
+      reader.readAsArrayBuffer(currentFile);
+    });
+  </script>
+</body>
+</html>
